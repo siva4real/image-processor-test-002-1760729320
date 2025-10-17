@@ -1,0 +1,69 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        #image-container {
+            max-width: 80%;
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #metadata {
+            font-size: 14px;
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="image-container">
+        <img id="image" src="" alt="Processed Image">
+    </div>
+    <div id="metadata">Loading metadata...</div>
+
+    <script>
+        (function() {
+            const defaultImageUrl = 'landscape_sample.jpg'; // Default image path
+            const urlParams = new URLSearchParams(window.location.search);
+            const imageUrl = urlParams.get('url') || defaultImageUrl;
+            const imageElement = document.getElementById('image');
+            const metadataElement = document.getElementById('metadata');
+
+            imageElement.src = imageUrl;
+
+            imageElement.onload = () => {
+                const metadata = `Image URL: ${imageUrl}<br>
+                                  Width: ${imageElement.naturalWidth}px<br>
+                                  Height: ${imageElement.naturalHeight}px<br>
+                                  MIME Type: ${imageElement.src.split('.').pop()}`;
+
+                setTimeout(() => {
+                    metadataElement.innerHTML = metadata;
+                }, 1000); // Display metadata after 1 second for visual effect
+            };
+
+            imageElement.onerror = () => {
+                metadataElement.textContent = 'Error loading image. Please check the URL.';
+            };
+        })();
+    </script>
+</body>
+</html>
+```
